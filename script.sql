@@ -2,11 +2,12 @@ CREATE TABLE users (
     user_id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255) NOT NULL,
     `password` VARCHAR(255) NOT NULL,
-    `name` VARCHAR(255) NOT NULL,
-    `address` TEXT NOT NULL,
-    phone_number INT NOT NULL,
-    balance DECIMAL(10,2) NOT NULL DEFAULT 0,
-    `role` VARCHAR(50) NOT NULL DEFAULT 'Customer'
+    `name` VARCHAR(255),
+    `address` TEXT,
+    phone_number INT,
+    balance DECIMAL(10,2) DEFAULT 0,
+    `role` VARCHAR(50) NOT NULL DEFAULT 'Customer',
+    UNIQUE(email)
 );
 
 CREATE TABLE sizes (
@@ -30,6 +31,30 @@ CREATE TABLE products_detail (
     FOREIGN KEY (size_id) REFERENCES sizes(size_id)
 );
 
+CREATE TABLE wishlists (
+    wishlist_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    product_detail_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (product_detail_id) REFERENCES products_detail(product_detail_id)
+);
+
+CREATE TABLE carts (
+    cart_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    product_detail_id INT NOT NULL,
+    quantity INT NOT NULL,
+    total DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (product_detail_id) REFERENCES products_detail(product_detail_id)
+);
+
+CREATE TABLE order_history (
+    order_history_id INT PRIMARY KEY AUTO_INCREMENT,
+    cart_id INT NOT NULL,
+    OrderDate DATE NOT NULL,
+    FOREIGN KEY (cart_id) REFERENCES carts(cart_id)
+);
 
 -- Insert Table
 
