@@ -92,7 +92,19 @@ func RunProgram() {
 								time.Sleep(1 * time.Second)
 							}
 						case "3":
-
+							inputCart := userInput("Remove dari Cart berdasarkan angka di menu: ", scanner)
+							inputCartInt, err := strconv.Atoi(inputCart)
+							if err != nil {
+								fmt.Println("Input tidak valid!")
+								continue
+							}
+							err = handler.RemoveCart(user, inputCartInt-1)
+							if err != nil {
+								fmt.Println(err)
+							} else {
+								fmt.Println("Berhasil Remove dari Cart")
+								time.Sleep(1 * time.Second)
+							}
 						case "4":
 							handler.ShowProduct()
 							inputWishlist := userInput("Masukkan Wishlist berdasarkan angka di menu: ", scanner)

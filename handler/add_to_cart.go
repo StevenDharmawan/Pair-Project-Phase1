@@ -11,7 +11,7 @@ func AddToCart(user entity.User, product entity.Products, cart entity.Cart) erro
 	if err != nil {
 		return err
 	}
-	_, err = config.DB.Exec("INSERT INTO carts(user_id, product_detail_id, quantity, total) VALUES (?,?,?,?)", user.UserId, product.ProductDetailId, cart.Quantity, float64(cart.Quantity)*product.Price)
+	_, err = config.DB.Exec("INSERT INTO carts(user_id, product_detail_id, quantity, total) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE quantity = quantity + ?, total = total + ?", user.UserId, product.ProductDetailId, cart.Quantity, float64(cart.Quantity)*product.Price, cart.Quantity, float64(cart.Quantity)*product.Price)
 	if err != nil {
 		return err
 	}
