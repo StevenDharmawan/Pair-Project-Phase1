@@ -40,5 +40,3 @@ func ShowProduct() {
 		fmt.Printf("| %-5d | %-20s | %-70s | %-10s | Rp.%-11.2f | %-5d |\n", count, name, description, sizeName, price, stock)
 	}
 }
-
-//TAMBAHKAN FEAT UNTUK
