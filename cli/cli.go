@@ -9,6 +9,8 @@ import (
 	"net/mail"
 	"os"
 	"regexp"
+	"strconv"
+	"time"
 )
 
 func RunProgram() {
@@ -55,17 +57,35 @@ func RunProgram() {
 					}
 				} else {
 					for {
-						fmt.Println("1. Menampilkan Barang\n2. Menambahkan barang ke cart\n3. Menghapus barang dari cart\n4. Wishlist\n5. History Order\n6. TopUp saldo\n7. Pembayaran\n8. Exit")
-						inputCustomer := userInput("Masukkan input berdasarkan angka di menu (1-7): ", scanner)
+						fmt.Println("1. Menampilkan Barang\n2. Menambahkan barang ke cart\n3. Menghapus barang dari cart\n4. Menambahkan Wishlist\n5. Menghapus Wishlist\n6. Menampilkan Wishlist\n.7 History Order\n8. TopUp saldo\n9. Pembayaran\n10. Exit")
+						inputCustomer := userInput("Masukkan input berdasarkan angka di menu (1-10): ", scanner)
 						switch inputCustomer {
 						case "1":
-
+							handler.ShowProduct()
+							fmt.Print("\nTekan enter untuk kembali ke menu ")
+							fmt.Scanln()
 						case "2":
 
 						case "3":
 
 						case "4":
-
+							handler.ShowProduct()
+							inputWishlist := userInput("Masukkan Wishlist berdasarkan angka di menu: ", scanner)
+							inputWishlistInt, err := strconv.Atoi(inputWishlist)
+							if err != nil {
+								fmt.Println("Input tidak valid!")
+								continue
+							}
+							wishlist := entity.Products{
+								ProductDetailId: inputWishlistInt,
+							}
+							err = handler.AddWishlist(user, wishlist)
+							if err != nil {
+								fmt.Println(err)
+							} else {
+								fmt.Println("Wishlist berhasil ditambahkan")
+								time.Sleep(1 * time.Second)
+							}
 						case "5":
 
 						case "6":
@@ -73,6 +93,10 @@ func RunProgram() {
 						case "7":
 
 						case "8":
+
+						case "9":
+
+						case "10":
 							return
 						default:
 							fmt.Println("Input yang dimasukkan tidak valid")
