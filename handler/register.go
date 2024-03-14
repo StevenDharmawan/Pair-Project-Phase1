@@ -12,7 +12,15 @@ func Register(user entity.User) error {
 		return err
 	}
 
-	_, err = config.DB.Exec("INSERT INTO users(email, password, name, address, phone_number) VALUES (?,?,?,?,?)", user.Email, password, user.Name, user.Address, user.PhoneNumber)
+	result, err := config.DB.Exec("INSERT INTO users (email, password) VALUES (?, ?)", user.Email, password)
+	if err != nil {
+		return err
+	}
+	userID, err := result.LastInsertId()
+	if err != nil {
+		return err
+	}
+	_, err = config.DB.Exec("INSERT INTO user_details (user_id, name, address, phone_number) VALUES (?,?,?,?)", userID, user.Name, user.Address, user.PhoneNumber)
 	if err != nil {
 		return err
 	}

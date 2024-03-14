@@ -4,7 +4,7 @@ CREATE TABLE users (
     `password` VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE user_details(
+CREATE TABLE user_details (
     user_id INT PRIMARY KEY,
     `name` VARCHAR(255),
     `address` TEXT,
@@ -25,7 +25,7 @@ CREATE TABLE products (
     `description` TEXT
 );
 
-CREATE TABLE product_details (
+CREATE TABLE products_detail (
     product_detail_id INT PRIMARY KEY AUTO_INCREMENT,
     product_id INT NOT NULL,
     size_id INT NOT NULL,
@@ -69,16 +69,16 @@ CREATE TABLE order_history (
 
 -- Insert Table
 
-INSERT INTO products (product_name, `description`)
+INSERT INTO products(product_name, `description`)
 VALUES
     ('T-Shirt', 'Cotton T-Shirt'),
     ('Graphic T-Shirt', 'T-shirts that have some sort of image or other graphic design on them'),
     ('Denim Jacket', 'a jacket that made from denim');
 
-INSERT INTO sizes (size_name)
+INSERT INTO sizes(size_name)
 VALUES ('S'), ('M'), ('L'), ('XL');
 
-INSERT INTO product_details (product_id, size_id, price, stock)
+INSERT INTO products_detail(product_id, size_id, price, stock)
 VALUES
     (1, 1, 200000, 50),
     (1, 2, 205000, 40),

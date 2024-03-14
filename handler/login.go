@@ -8,7 +8,7 @@ import (
 
 func Login(email, password string) (entity.User, bool) {
 	var user entity.User
-	row := config.DB.QueryRow("SELECT * FROM users WHERE email = ?", email)
+	row := config.DB.QueryRow("SELECT users.user_id, email, password, name, address, phone_number, balance, role FROM users JOIN user_details ON users.user_id = user_details.user_id  WHERE email = ?", email)
 	err := row.Scan(&user.UserId, &user.Email, &user.Password, &user.Name, &user.Address, &user.PhoneNumber, &user.Balance, &user.Role)
 	if err != nil {
 		return user, false
