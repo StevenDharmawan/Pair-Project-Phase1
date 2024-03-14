@@ -57,7 +57,7 @@ func RunProgram() {
 					}
 				} else {
 					for {
-						fmt.Println("1. Menampilkan Barang\n2. Menambahkan barang ke cart\n3. Menghapus barang dari cart\n4. Menambahkan Wishlist\n5. Menghapus Wishlist\n6. Menampilkan Wishlist\n.7 History Order\n8. TopUp saldo\n9. Pembayaran\n10. Exit")
+						fmt.Println("1. Menampilkan Barang\n2. Menambahkan barang ke cart\n3. Menghapus barang dari cart\n4. Menambahkan Wishlist\n5. Menghapus Wishlist\n6. Menampilkan Wishlist\n7. History Order\n8. TopUp saldo\n9. Pembayaran\n10. Exit")
 						inputCustomer := userInput("Masukkan input berdasarkan angka di menu (1-10): ", scanner)
 						switch inputCustomer {
 						case "1":
@@ -65,7 +65,32 @@ func RunProgram() {
 							fmt.Print("\nTekan enter untuk kembali ke menu ")
 							fmt.Scanln()
 						case "2":
-
+							handler.ShowProduct()
+							inputCart := userInput("Masukkan ke Cart berdasarkan angka di menu: ", scanner)
+							inputCartInt, err := strconv.Atoi(inputCart)
+							if err != nil {
+								fmt.Println("Input tidak valid!")
+								continue
+							}
+							inputQuantity := userInput("Masukkan quantity: ", scanner)
+							inputQuantityInt, err := strconv.Atoi(inputQuantity)
+							if err != nil {
+								fmt.Println("Input tidak valid!")
+								continue
+							}
+							product := entity.Products{
+								ProductDetailId: inputCartInt,
+							}
+							quantity := entity.Cart{
+								Quantity: inputQuantityInt,
+							}
+							err = handler.AddToCart(user, product, quantity)
+							if err != nil {
+								fmt.Println(err)
+							} else {
+								fmt.Println("Berhasil Add to Cart")
+								time.Sleep(1 * time.Second)
+							}
 						case "3":
 
 						case "4":
