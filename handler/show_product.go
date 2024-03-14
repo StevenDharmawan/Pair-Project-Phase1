@@ -1,5 +1,3 @@
-package handler
-
 import (
 	"PairProjectPhase1/config"
 	"fmt"
