@@ -6,7 +6,7 @@ type User struct {
 	Password    string
 	Name        string
 	Address     string
-	PhoneNumber int
+	PhoneNumber string
 	Balance     float64
 	Role        string
 }
