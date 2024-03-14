@@ -2,18 +2,20 @@ package handler
 
 import (
 	"PairProjectPhase1/config"
+	"PairProjectPhase1/entity"
 	"fmt"
 )
 
-func ShowWishlist() {
+func ShowWishlist(user entity.User) {
 	query := `
         SELECT p.product_name, s.size_name
         FROM wishlists w
         JOIN products_detail pd ON w.product_detail_id = pd.product_detail_id
         JOIN products p ON pd.product_id = p.product_id 
-        JOIN sizes s ON pd.size_id = s.size_id;
+        JOIN sizes s ON pd.size_id = s.size_id
+		WHERE user_id = ?;
     `
-	rows, err := config.DB.Query(query)
+	rows, err := config.DB.Query(query, user.UserId)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -38,4 +40,5 @@ func ShowWishlist() {
 		// Cetak baris tabel
 		fmt.Printf("| %-5d | %-30s | %-10s |\n", count, name, sizeName)
 	}
+	fmt.Println()
 }

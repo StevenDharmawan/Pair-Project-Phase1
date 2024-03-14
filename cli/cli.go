@@ -126,11 +126,25 @@ func RunProgram() {
 						case "5":
 
 						case "6":
-
+							handler.ShowWishlist(user)
+							time.Sleep(2 * time.Second)
 						case "7":
 
 						case "8":
-
+							inputTopUp := userInput("Masukkan nominal untuk TopUp: Rp", scanner)
+							inputTopUpInt, err := strconv.ParseFloat(inputTopUp, 64)
+							if err != nil {
+								fmt.Println("Input tidak valid!")
+								continue
+							}
+							user.Balance = inputTopUpInt
+							err = handler.AddBalance(user)
+							if err != nil {
+								fmt.Println(err)
+							} else {
+								fmt.Println("TopUp telah berhasil")
+								time.Sleep(1 * time.Second)
+							}
 						case "9":
 
 						case "10":
