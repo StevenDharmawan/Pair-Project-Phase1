@@ -35,25 +35,51 @@ func RunProgram() {
 			if valid {
 				fmt.Println("Login berhasil! Selamat datang", user.Name)
 				if user.Role == "Admin" {
-					fmt.Println("1. Menampilkan report user\n2. Menampilkan report\n3. Menampilkan report\n4. Menambahkan barang\n5. Menghapus barang\n6. Update stock barang\n7. Exit")
-					inputAdmin := userInput("Masukkan input berdasarkan angka di menu (1-7): ", scanner)
-					switch inputAdmin {
-					case "1":
+					for {
+						fmt.Println("1. Menampilkan user report\n2. Menampilkan order report\n3. Menampilkan stock report\n4. Menambahkan barang\n5. Update stock barang\n6. Exit")
+						inputAdmin := userInput("Masukkan input berdasarkan angka di menu (1-7): ", scanner)
+						switch inputAdmin {
+						case "1":
+							handler.ReportTotal()
+							scanEnter()
+						case "2":
+							handler.OrderReport()
+							scanEnter()
+						case "3":
+							handler.StockReport()
+							scanEnter()
+						case "4":
 
-					case "2":
-
-					case "3":
-
-					case "4":
-
-					case "5":
-
-					case "6":
-
-					case "7":
-						return
-					default:
-						fmt.Println("Input yang dimasukkan tidak valid")
+						case "5":
+							handler.ShowProduct()
+							inputProduct := userInput("Pilih product berdasarkan angka di menu: ", scanner)
+							inputProductInt, err := strconv.Atoi(inputProduct)
+							if err != nil {
+								fmt.Println("Input tidak valid!")
+								continue
+							}
+							inputStock := userInput("Masukkan quantity: ", scanner)
+							inputStockInt, err := strconv.Atoi(inputStock)
+							if err != nil {
+								fmt.Println("Input tidak valid!")
+								continue
+							}
+							product := entity.Products{
+								ProductDetailId: inputProductInt,
+								Stock:           inputStockInt,
+							}
+							err = handler.UpdateStock(product)
+							if err != nil {
+								fmt.Println(err)
+							} else {
+								fmt.Println("Berhasil menambahkan stock")
+								time.Sleep(1 * time.Second)
+							}
+						case "6":
+							return
+						default:
+							fmt.Println("Input yang dimasukkan tidak valid")
+						}
 					}
 				} else {
 					for {
@@ -62,8 +88,7 @@ func RunProgram() {
 						switch inputCustomer {
 						case "1":
 							handler.ShowProduct()
-							fmt.Print("\nTekan enter untuk kembali ke menu ")
-							fmt.Scanln()
+							scanEnter()
 						case "2":
 							handler.ShowProduct()
 							inputCart := userInput("Masukkan ke Cart berdasarkan angka di menu: ", scanner)
@@ -220,4 +245,9 @@ func userInput(text string, scanner *bufio.Scanner) string {
 	fmt.Print(text)
 	scanner.Scan()
 	return scanner.Text()
+}
+
+func scanEnter() {
+	fmt.Print("\nTekan enter untuk kembali ke menu ")
+	fmt.Scanln()
 }

@@ -6,7 +6,7 @@ import (
 )
 
 func ReportTotal() {
-	query := "SELECT name, email FROM users"
+	query := "SELECT name, email FROM users WHERE user_id != 1"
 
 	// Execute the query
 	rows, err := config.DB.Query(query)
@@ -34,4 +34,5 @@ func ReportTotal() {
 		// Print the row data in a formatted manner
 		fmt.Printf("| %-5d | %-20s | %-70s |\n", count, name, email)
 	}
+	fmt.Println()
 }
