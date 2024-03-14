@@ -8,5 +8,5 @@ type Products struct {
 	SizeName        int
 	ProductDetailId int
 	Price           float64
-	stock           int
+	Stock           int
 }

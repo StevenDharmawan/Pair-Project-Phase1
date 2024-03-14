@@ -2,13 +2,13 @@ package handler
 
 import (
 	"PairProjectPhase1/config"
+	"PairProjectPhase1/entity"
 )
 
-func UpdateStock(productID int, newStock int) error {
-	_, err := config.DB.Exec("UPDATE products_detail SET stock = ? WHERE product_id = ?", newStock, productID)
+func UpdateStock(product entity.Products) error {
+	_, err := config.DB.Exec("UPDATE products_detail SET stock = stock + ? WHERE product_detail_id = ?", product.Stock, product.ProductDetailId)
 	if err != nil {
 		return err
 	}
-	config.DB.Close()
 	return nil
 }
