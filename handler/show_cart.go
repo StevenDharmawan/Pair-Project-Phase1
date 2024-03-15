@@ -13,7 +13,7 @@ func ShowCart(user entity.User) {
         JOIN products_detail pd ON c.product_detail_id = pd.product_detail_id
         JOIN products p ON pd.product_id = p.product_id 
         JOIN sizes s ON pd.size_id = s.size_id 
-		WHERE user_id = ?
+		WHERE c.user_id = ?
         ORDER BY c.product_detail_id;
     `
 	rows, err := config.DB.Query(query, user.UserId)
