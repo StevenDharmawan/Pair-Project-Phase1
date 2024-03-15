@@ -6,7 +6,7 @@ import (
 )
 
 func AddBalance(user entity.User) error {
-	_, err := config.DB.Exec("UPDATE users SET balance = balance + ? WHERE user_id = ?", user.Balance, user.UserId)
+	_, err := config.DB.Exec("UPDATE user_details SET balance = balance + ? WHERE user_id = ?", user.Balance, user.UserId)
 	if err != nil {
 		return err
 	}

@@ -1,6 +1,6 @@
 package entity
 
-type Products struct {
+type Product struct {
 	ProductId       int
 	ProductName     string
 	Description     string

@@ -22,7 +22,8 @@ CREATE TABLE sizes (
 CREATE TABLE products (
     product_id INT PRIMARY KEY AUTO_INCREMENT,
     product_name VARCHAR(255) NOT NULL,
-    `description` TEXT
+    `description` TEXT,
+    UNIQUE (product_name)
 );
 
 CREATE TABLE products_detail (
@@ -62,6 +63,7 @@ CREATE TABLE order_history (
     product_detail_id INT NOT NULL,
     quantity INT NOT NULL,
     total DECIMAL(10,2) NOT NULL,
+    order_date DATE NOT NULL ,
     FOREIGN KEY (user_id) REFERENCES user_details(user_id),
     FOREIGN KEY (product_detail_id) REFERENCES products_detail(product_detail_id),
     UNIQUE(user_id, product_detail_id)
