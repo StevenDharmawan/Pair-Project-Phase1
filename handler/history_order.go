@@ -2,19 +2,13 @@ package handler
 
 import (
 	"PairProjectPhase1/config"
+	"PairProjectPhase1/entity"
 	"fmt"
 )
 
-func HistoryOrder() {
-	query := `
-		SELECT p.product_name, s.size_name, c.quantity, c.total, oh.OrderDate
-		FROM carts c
-		JOIN order_history oh ON c.cart_id = oh.cart_id
-		JOIN products_detail pd ON c.product_detail_id = pd.product_detail_id
-		JOIN products p ON pd.product_id = p.product_id
-		JOIN sizes s ON pd.size_id = s.size_id;
-	`
-	rows, err := config.DB.Query(query)
+func HistoryOrder(user entity.User) {
+	query := "SELECT product_detail_id, quantity, total, order_date FROM order_history WHERE user_id = ?"
+	rows, err := config.DB.Query(query, user.UserId)
 	if err != nil {
 		panic(err.Error())
 	}

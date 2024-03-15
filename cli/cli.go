@@ -49,7 +49,39 @@ func RunProgram() {
 							handler.StockReport()
 							scanEnter()
 						case "4":
-
+							fmt.Println("MENAMBAHKAN PRODUCT!")
+							inputProduct := userInput("Masukkan nama product yang ingin ditambahkan: ", scanner)
+							fmt.Println("1. S\n2. M\n3. L\n4. XL")
+							inputSize := userInput("Masukkan Size (1/2/3/4): ", scanner)
+							inputSizeInt, err := strconv.Atoi(inputSize)
+							if err != nil {
+								fmt.Println("Input tidak valid!")
+								continue
+							}
+							inputPrice := userInput("Masukkan stock: ", scanner)
+							inputPriceFloat, err := strconv.ParseFloat(inputPrice, 64)
+							if err != nil {
+								fmt.Println("Input tidak valid!")
+								continue
+							}
+							inputStock := userInput("Masukkan stock: ", scanner)
+							inputStockInt, err := strconv.Atoi(inputStock)
+							if err != nil {
+								fmt.Println("Input tidak valid!")
+								continue
+							}
+							product := entity.Product{
+								ProductName: inputProduct,
+								SizeName:    inputSizeInt,
+								Price:       inputPriceFloat,
+								Stock:       inputStockInt,
+							}
+							err = handler.AddProduct(product)
+							if err != nil {
+								fmt.Println(err)
+							} else {
+								fmt.Println("Barang berhasil ditambahkan")
+							}
 						case "5":
 							handler.ShowProduct()
 							inputProduct := userInput("Pilih product berdasarkan angka di menu: ", scanner)
@@ -64,7 +96,7 @@ func RunProgram() {
 								fmt.Println("Input tidak valid!")
 								continue
 							}
-							product := entity.Products{
+							product := entity.Product{
 								ProductDetailId: inputProductInt,
 								Stock:           inputStockInt,
 							}
@@ -103,7 +135,7 @@ func RunProgram() {
 								fmt.Println("Input tidak valid!")
 								continue
 							}
-							product := entity.Products{
+							product := entity.Product{
 								ProductDetailId: inputCartInt,
 							}
 							quantity := entity.Cart{
@@ -117,13 +149,17 @@ func RunProgram() {
 								time.Sleep(1 * time.Second)
 							}
 						case "3":
+							handler.ShowCart(user)
 							inputCart := userInput("Remove dari Cart berdasarkan angka di menu: ", scanner)
 							inputCartInt, err := strconv.Atoi(inputCart)
 							if err != nil {
 								fmt.Println("Input tidak valid!")
 								continue
 							}
-							err = handler.RemoveCart(user, inputCartInt-1)
+							product := entity.Product{
+								ProductDetailId: inputCartInt,
+							}
+							err = handler.RemoveCart(user, product)
 							if err != nil {
 								fmt.Println(err)
 							} else {
@@ -138,7 +174,7 @@ func RunProgram() {
 								fmt.Println("Input tidak valid!")
 								continue
 							}
-							wishlist := entity.Products{
+							wishlist := entity.Product{
 								ProductDetailId: inputWishlistInt,
 							}
 							err = handler.AddWishlist(user, wishlist)
@@ -149,12 +185,29 @@ func RunProgram() {
 								time.Sleep(1 * time.Second)
 							}
 						case "5":
-
+							handler.ShowWishlist(user)
+							inputWishlist := userInput("Remove dari Cart berdasarkan angka di menu: ", scanner)
+							inputWishlistInt, err := strconv.Atoi(inputWishlist)
+							if err != nil {
+								fmt.Println("Input tidak valid!")
+								continue
+							}
+							product := entity.Product{
+								ProductDetailId: inputWishlistInt,
+							}
+							err = handler.RemoveWishlist(user, product)
+							if err != nil {
+								fmt.Println(err)
+							} else {
+								fmt.Println("Berhasil Remove dari Wishlist")
+								time.Sleep(1 * time.Second)
+							}
 						case "6":
 							handler.ShowWishlist(user)
-							time.Sleep(2 * time.Second)
+							scanEnter()
 						case "7":
-
+							handler.HistoryOrder(user)
+							scanEnter()
 						case "8":
 							inputTopUp := userInput("Masukkan nominal untuk TopUp: Rp", scanner)
 							inputTopUpInt, err := strconv.ParseFloat(inputTopUp, 64)
@@ -171,6 +224,13 @@ func RunProgram() {
 								time.Sleep(1 * time.Second)
 							}
 						case "9":
+							var cart entity.Cart
+							var product entity.Product
+							var order entity.Order
+							err = handler.Checkout(user, product, cart, order)
+							if err != nil {
+								fmt.Println(err)
+							}
 
 						case "10":
 							return

@@ -5,7 +5,7 @@ import (
 	"PairProjectPhase1/entity"
 )
 
-func AddToCart(user entity.User, product entity.Products, cart entity.Cart) error {
+func AddToCart(user entity.User, product entity.Product, cart entity.Cart) error {
 	row := config.DB.QueryRow("SELECT price FROM products_detail WHERE product_detail_id = ?", product.ProductDetailId)
 	err := row.Scan(&product.Price)
 	if err != nil {

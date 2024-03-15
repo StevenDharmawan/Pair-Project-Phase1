@@ -7,10 +7,10 @@ import (
 )
 
 func OrderReport() {
-	query := `SELECT oh.order_history_id, oh.cart_id, oh.OrderDate, COUNT(*) AS total_sales
-	          FROM order_history oh
-	          JOIN carts c ON oh.cart_id = c.cart_id
-	          GROUP BY oh.cart_id`
+	query := `SELECT user_details.name, SUM(total) AS total_sales 
+				FROM order_history
+				JOIN user_details ON order_history.user_id = user_details.user_id
+				GROUP BY user_id`
 	rows, err := config.DB.Query(query)
 	if err != nil {
 		panic(err.Error())
@@ -24,21 +24,21 @@ func OrderReport() {
 
 	// Print the table headers
 	fmt.Println("Order History")
-	fmt.Printf("| %-5s | %-10s | %-20s | %-15s |\n", "No", "Cart ID", "Order Date", "Total Sales")
-	fmt.Println("|-------|------------|----------------------|-----------------|")
+	fmt.Printf("| %-5s | %-15s | %-10s |\n", "No", "Name", "Total")
+	fmt.Println("|-------|-------------------|------------|")
 
 	var count int
 
 	for rows.Next() {
-		var orderID, cartID, totalSales int
-		var orderDate string
-		err := rows.Scan(&orderID, &cartID, &orderDate, &totalSales)
+		var total float64
+		var name string
+		err := rows.Scan(&name, &total)
 		if err != nil {
 			panic(err.Error())
 		}
 
 		count++
 
-		fmt.Printf("| %-5d | %-10d | %-20s | %-15d |\n", count, cartID, orderDate, totalSales)
+		fmt.Printf("| %-5s | %-15s | %-10s |\n", count, name, total)
 	}
 }
