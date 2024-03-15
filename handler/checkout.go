@@ -4,6 +4,7 @@ import (
 	"PairProjectPhase1/config"
 	"PairProjectPhase1/entity"
 	"errors"
+	"fmt"
 	"time"
 )
 
@@ -26,8 +27,9 @@ func Checkout(user entity.User, product entity.Product, cart entity.Cart, order 
 		if err != nil {
 			panic(err.Error())
 		}
+		fmt.Println("asd")
 		for rows.Next() {
-			err = rows.Scan(user.UserId, product.ProductDetailId, cart.Quantity, cart.Total)
+			err = rows.Scan(&user.UserId, &product.ProductDetailId, &cart.Quantity, &cart.Total)
 			if err != nil {
 				panic(err.Error())
 			}

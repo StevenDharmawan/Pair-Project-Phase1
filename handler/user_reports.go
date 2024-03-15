@@ -6,7 +6,7 @@ import (
 )
 
 func ReportTotal() {
-	query := "SELECT name, email FROM users JOIN user_details ON users.user_id = user_details.user_id WHERE user_id != 1"
+	query := "SELECT name, email FROM users JOIN user_details ON users.user_id = user_details.user_id WHERE users.user_id != 1"
 
 	// Execute the query
 	rows, err := config.DB.Query(query)
